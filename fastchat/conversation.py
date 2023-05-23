@@ -271,6 +271,21 @@ register_conv_template(
     )
 )
 
+register_conv_template(
+    Conversation(
+        name="gpt2",
+        system="Below is an instruction that describes a task, paired with an input \
+                       that provides further context. Write a response that appropriately completes \
+                       the request.\n\n### Instruction:\nPlease extract the names of the grantor and grantee from the following deed document:\n\n",
+        roles=("### Input", "### Response"),
+        messages=(),
+        offset=0,
+        sep_style=SeparatorStyle.DOLLY,
+        sep="\n\n",
+        sep2="<|endoftext|>",
+    )
+)
+
 # OpenAssistant Pythia default template
 register_conv_template(
     Conversation(

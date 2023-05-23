@@ -295,6 +295,24 @@ class DollyV2Adapter(BaseAdapter):
 
     def get_default_conv_template(self, model_path: str) -> Conversation:
         return get_conv_template("dolly_v2")
+    
+class GPT2Adapter(BaseAdapter):
+    """The model adapter for gpt2"""
+
+    def match(self, model_path: str):
+        return "gpt2" in model_path
+    
+    def load_model(self, model_path: str, from_pretrained_kwargs: dict):
+        tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True)
+        model = AutoModelForCausalLM.from_pretrained(
+            model_path,
+            low_cpu_mem_usage=True,
+            **from_pretrained_kwargs,
+        )
+        return model, tokenizer
+    
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("gpt2")
 
 
 class OasstPythiaAdapter(BaseAdapter):
@@ -513,6 +531,7 @@ register_model_adapter(T5Adapter)
 register_model_adapter(KoalaAdapter)
 register_model_adapter(ChatGLMAdapter)
 register_model_adapter(DollyV2Adapter)
+register_model_adapter(GPT2Adapter)
 register_model_adapter(OasstPythiaAdapter)
 register_model_adapter(StableLMAdapter)
 register_model_adapter(BaizeAdapter)
